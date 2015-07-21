@@ -28,5 +28,32 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+
+    if user.blank?
+        guest_role
+    # elsif user.has_role? :admin
+    elsif user.is_admin?
+        admin_role
+    else
+        user_role
+    end
   end
+
+  protected
+    def admin_role
+        can :manage, :all
+    end
+
+    def user_role
+        can :read, :all
+        can :create, :all
+        can :update, Movie do |movie|
+            (movie.user_id == user.id)
+        end
+    end
+
+    def guest_role
+        can :read, :all
+    end
 end
+

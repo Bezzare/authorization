@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'movies#index'
   resources :movies
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
